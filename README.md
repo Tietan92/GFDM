@@ -17,10 +17,15 @@ The general finite difference method is a meshfree numerical approach to solve p
 
 https://github.com/Tietan92/GFDM/assets/108583448/5428ffb2-e368-4d86-b4f7-984f10ee1599
 
+- Go to the code page [Link](https://github.com/Tietan92/GFDM/blob/main/examples/cpu%20cooler/cpu_cooler.ipynb)
+- Step by step guide: 
 
 **Thermal design of a micro heating element**
 
 https://github.com/Tietan92/GFDM/assets/108583448/d494b75b-d693-488f-a1ac-787c3a4b13a2
+
+- Go to the code page [Link](https://github.com/Tietan92/GFDM/blob/main/examples/micro%20heating%20element/micro_heating_element.ipynb)
+- Step by step guide: 
 
 
 
