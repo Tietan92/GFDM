@@ -11,8 +11,18 @@ The general finite difference method is a meshfree numerical approach to solve p
 ## Download:
 
 
-
 ## Examples:
+
+**CPU cooler heatflow simulation**: 
+
+https://github.com/Tietan92/GFDM/assets/108583448/5428ffb2-e368-4d86-b4f7-984f10ee1599
+
+
+**Thermal design of a micro heating element**
+
+https://github.com/Tietan92/GFDM/assets/108583448/d494b75b-d693-488f-a1ac-787c3a4b13a2
+
+
 
 
 ## Documentation:
