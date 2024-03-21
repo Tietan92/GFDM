@@ -34,5 +34,8 @@ https://github.com/Tietan92/GFDM/assets/108583448/d494b75b-d693-488f-a1ac-787c3a
 
 All the required Python libs and the compiled solvers can be found in the download folder. 
 
+## Operation system
+Currently the solver is only compiled for the Linux platform. Windows will follow soon. 
+
 
 
