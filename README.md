@@ -10,9 +10,9 @@ The general finite difference method is a meshfree approach to solve partial dif
 - **Easy post processing using the whole possibilities with Python**: The simulation results can be imported into Python and therefore allow simple further processing of the data or graphical visualisation. In addition, a post-processor in Python based on [Matplotlib](https://matplotlib.org/) was implemented, which enables quick and easy visualisation of the simulation results.
 
 ## Documentation:
-- **gfdm-Toolkit Konzept**: [Link](https://github.com/Tietan92/GFDM/blob/main/documentation/solver_concept.md)
+- **gfdm-Toolkit Concept**: [Link](https://github.com/Tietan92/GFDM/blob/main/documentation/solver_concept.md)
 - **Dynamics of incompressible fluids**
-    - Mathematical Foundation: [Link](https://rawcdn.githack.com/Tietan92/GFDM/3c39fe69ffd24cbd256ec1d5a6d3c92fc7151adf/documentation/gfdm/1.%20Mathematical%20Foundation.html)
+    - Mathematical Foundation: [Link](https://raw.githack.com/Tietan92/GFDM/main/documentation/incrompressible_flow/Mathematical%20Foundation.html)
     - Software Documentation: [Link](https://rawcdn.githack.com/Tietan92/GFDM/3c39fe69ffd24cbd256ec1d5a6d3c92fc7151adf/documentation/gfdm/3.Python%20Software%20Architecture.html)
 - **Linear Heat Conduction**
     - Mathematical Foundation: [Link](https://rawcdn.githack.com/Tietan92/GFDM/3c39fe69ffd24cbd256ec1d5a6d3c92fc7151adf/documentation/gfdm/1.%20Mathematical%20Foundation.html)
