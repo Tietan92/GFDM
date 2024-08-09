@@ -1,18 +1,26 @@
-# 2D linear heat conduction solver based on the generalised finite difference method
-The general finite difference method is a meshfree numerical approach to solve physical field problems. Instead of a mesh only a pointcloud of the computitional domain is needed. This offers many advantes specially for non-linear field problems in continuum mechanics. Currently, only a solver for linear heat conduction problems is implemented, but more are planned. 
-
+# gfdm-Toolkit : A physical solver library based on the generalized finite difference method
+The general finite difference method is a meshfree approach to solve partial differential equations numerical. Instead of a mesh only a pointcloud of the computitional domain is needed. This offers many advantes specially for non-linear field problems in continuum mechanics. The gfdm-Toolkit consists solvers for the following problems:
+- **Dynamics of incompressible fluids (2D)**
+- **Linear Heat Conduction (2D)**
 
 ## Features:
 - **User-friendly pointcloud generation**: The solver is able to read finite element meshes from [Gmsh](https://gmsh.info/) and generate the point cloud out of it. 
 - **Python User Interface**: The user interface was implemented entirely in Python and therefore allows intuitive and simple handling. A simulation model can be built from just a few lines of code and does not require in-depth knowledge of numerical methods.
-- **Fast and efficient Solver implementation**:The entire computationally intensive part of the code was programmed in C++ with the [Eigen3 library](https://eigen.tuxfamily.org/index.php?title=Main_Page) for linear algebra. In addition, most of the code was parallelised using [openMP](https://www.openmp.org/) and can be executed on multiple processor cores. The result is a very fast solver that can also solve high-resolution simulations with more than 100,000 particles in just a few minutes.
+- **Fast and efficient Solver implementation**:The entire computationally intensive part of the code was programmed in C++ with the [ViennaCL](https://viennacl.sourceforge.net/) and [Eigen3](https://eigen.tuxfamily.org/index.php?title=Main_Page) for linear algebra. In addition, most of the code was parallelised using [openMP](https://www.openmp.org/) and can be executed on multiple processor cores. The result is a very fast solver that can also solve high-resolution simulations with more than 100,000 particles on normal computers.
 - **Easy post processing using the whole possibilities with Python**: The simulation results can be imported into Python and therefore allow simple further processing of the data or graphical visualisation. In addition, a post-processor in Python based on [Matplotlib](https://matplotlib.org/) was implemented, which enables quick and easy visualisation of the simulation results.
 
 ## Documentation:
-- **Mathematical foundation** of the generalised finite difference method applied to heat conduction problems: [Link](https://rawcdn.githack.com/Tietan92/GFDM/3c39fe69ffd24cbd256ec1d5a6d3c92fc7151adf/documentation/gfdm/1.%20Mathematical%20Foundation.html)
-- **System Architecture**: [Link](https://rawcdn.githack.com/Tietan92/GFDM/3c39fe69ffd24cbd256ec1d5a6d3c92fc7151adf/documentation/gfdm/2.%20System%20Archtitecture.html)
-- **Python Software Architecture**: [Link](https://rawcdn.githack.com/Tietan92/GFDM/3c39fe69ffd24cbd256ec1d5a6d3c92fc7151adf/documentation/gfdm/3.Python%20Software%20Architecture.html)
-- **C++ Software Architecture**: [Link](https://rawcdn.githack.com/Tietan92/GFDM/3c39fe69ffd24cbd256ec1d5a6d3c92fc7151adf/documentation/gfdm/4.%20C++%20Software%20Architecture.html)
+- **gfdm-Toolkit Konzept**:
+- **Dynamics of incompressible fluids**
+    - Mathematical Foundation: [Link](https://rawcdn.githack.com/Tietan92/GFDM/3c39fe69ffd24cbd256ec1d5a6d3c92fc7151adf/documentation/gfdm/1.%20Mathematical%20Foundation.html)
+    - Software Documentation: [Link](https://rawcdn.githack.com/Tietan92/GFDM/3c39fe69ffd24cbd256ec1d5a6d3c92fc7151adf/documentation/gfdm/3.Python%20Software%20Architecture.html)
+- **Linear Heat Conduction**
+    - Mathematical Foundation: [Link](https://rawcdn.githack.com/Tietan92/GFDM/3c39fe69ffd24cbd256ec1d5a6d3c92fc7151adf/documentation/gfdm/1.%20Mathematical%20Foundation.html)
+    - Software Documentation: [Link](https://rawcdn.githack.com/Tietan92/GFDM/3c39fe69ffd24cbd256ec1d5a6d3c92fc7151adf/documentation/gfdm/3.Python%20Software%20Architecture.html) 
+
+  
+  
+
 
 ## Examples:
 
