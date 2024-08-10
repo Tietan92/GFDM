@@ -138,3 +138,41 @@ Checks if all needed requirements are fulfilled, send the simulation data via pi
 
 **Preprocessor.getNumTimeSteps()** 
 Returns an integer with the number of time-steps
+
+
+## Postprocessor
+
+
+### 1\. Description
+
+The Postprocessor Class reads the generated output file and offers different options to visualise the results and also make them accessible for further analysis. To improve the general usage, two classes are defined: PreprocessorParent is the parent class and provides general functions that can be used by several different solvers. The Preprocessor class already specifies functions that are required for a specific problem.
+
+### 2\. Public Methods
+
+**Postprocessor(projectName)**
+Constructor of the Postprocessor class. Calls `PostprocessorParent(projectName)`
+
+| Parameter |     |
+| --- | --- |
+| `projectName` : str | The name of the project of the Postprocessor should analyse. Must be equal to the project name defined in the Preprocessor, otherwise it will not be able to find the output file |
+
+&nbsp;
+
+**Postprocessor.triangulationPlotAnimated(fig,ax,name,colormap)**
+Calls `PostprocessorParent.triangulationPlotAnimatedBase(fig,ax,var,name,colormap,valMin=[],valMax=[])`
+
+<table><thead><tr><th>Parameter</th><th></th></tr></thead><tbody><tr><td><code class="inline-code" spellcheck="false">fig</code> : matplotlib Figure object</td><td>The matplotlib figure used for the plot</td></tr><tr><td><code class="inline-code" spellcheck="false">ax</code> : matplotlib Axes object</td><td>The matplotlib figure used for the plot</td></tr><tr><td><code spellcheck="false">var</code> : str</td><td><p>The variable that should be plotted:</p><ul><li><code spellcheck="false">'vel_x'</code> : velocity in x-direction</li><li><code spellcheck="false">'vel_y'</code> : velocity in y-direction</li><li><code spellcheck="false">'|vel|'</code> : norm of the velocity vector&nbsp;</li></ul></td></tr><tr><td><code class="inline-code" spellcheck="false">name</code> : str</td><td>The name of the .mp4 file to generate</td></tr><tr><td><code spellcheck="false">colormap</code> : str</td><td>The colormap used for the plot&nbsp;</td></tr><tr><td><code spellcheck="false">valMin</code> : float</td><td>Minimum value used for the colormap. If not defined, the global minimum value for the chosen variable is taken</td></tr><tr><td><code spellcheck="false">valMax</code>: float</td><td>Maximum value used for the colormap. If not defined, the global maximum value for the chosen variable is taken</td></tr></tbody></table>
+
+&nbsp;
+
+**Postprocessor.plotResults(fig,ax,tVal)**
+Calls `PostprocessorParent.plotResultsBase(fig,ax,var,tVal,colormap,valMin=[],valMax=[])`
+
+<table><thead><tr><th>Parameter</th><th></th></tr></thead><tbody><tr><td><code class="inline-code" spellcheck="false">fig</code> : matplotlib Figure object</td><td>The matplotlib figure used for the plot</td></tr><tr><td><code class="inline-code" spellcheck="false">ax</code> : matplotlib Axes object</td><td>The matplotlib figure used for the plot</td></tr><tr><td><code class="inline-code" spellcheck="false">var</code> : str</td><td><p>The variable that should be plotted:</p><ul><li><code class="inline-code" spellcheck="false">'vel_x'</code> : velocity in x-direction</li><li><code class="inline-code" spellcheck="false">'vel_y'</code> : velocity in y-direction</li><li><code class="inline-code" spellcheck="false">'|vel|'</code> : norm of the velocity vector</li></ul></td></tr><tr><td><code class="inline-code" spellcheck="false">tVal</code> : Array of flot</td><td>The time values at which the data should be plotted. The values must be in an range between 0 and the simulation end time</td></tr><tr><td><code class="inline-code" spellcheck="false">colormap</code> : str</td><td>The colormap used for the plot</td></tr><tr><td><code class="inline-code" spellcheck="false">valMin</code> : float</td><td>Minimum value used for the colormap. If not defined, the global minimum value for the chosen variable is taken</td></tr><tr><td><code class="inline-code" spellcheck="false">valMax</code>: float</td><td>Maximum value used for the colormap. If not defined, the global maximum value for the chosen variable is taken</td></tr></tbody></table>
+
+**PostprocessorParent.linkMesh(mesh)**
+Links a mesh object to the Postprocessor. The number of nodes from the simulation output file must be equal to the number of nodes of the imported mesh.
+
+| Parameter |     |
+| --- | --- |
+| `mesh` : Mesh Object | The mesh that should be linked to the Preprocessor |
