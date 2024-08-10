@@ -2,7 +2,7 @@
 
 | Module Informations |     |
 | --- | --- |
-| Associated Python File | `/source_code/python/gfdm2d.py` |
+| Associated Python File | `gfdm2d.py` |
 | Libraries needed | `numpy`,`matplotlib` |
 
 ### 1\. Description
@@ -39,6 +39,11 @@ Function which can be used to plot a triangulation mesh.
 | `lw`: int or float | Optional: linewidths of the connecting lines |
 
 ## Preprocessor
+
+| Module Information |     |
+| --- | --- |
+| Associated Python File | `incompressibleFlow2d.py` |
+| Libraries needed | `numpy` |
 
 ### 1\. Description
 The Preprocessor class is used to build the model based on the imported mesh. The material parameters, initial conditions and boundary conditions as well as basic simulation parameters should be defined inside an object of this class. All the data is send to the solver via pipe. To improve the general usage, two classes are defined: PreprocessorParent is the parent class and provides general functions that can be used by several different solvers. 
@@ -141,6 +146,11 @@ Returns an integer with the number of time-steps
 
 
 ## Postprocessor
+
+| Module Informations |     |
+| --- | --- |
+| Associated Python File | `incompressibleFlow2d.py` |
+| Libraries needed | `numpy` , `matplotlib` , `IPython` |
 
 
 ### 1\. Description
