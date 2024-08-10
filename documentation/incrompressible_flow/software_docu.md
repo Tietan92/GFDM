@@ -41,7 +41,7 @@ Function which can be used to plot a triangulation mesh.
 ## Preprocessor
 
 ### 1\. Description
-The Preprocessor class is used to build the model based on the imported mesh. The material parameters, initial conditions and boundary conditions as well as basic simulation parameters should be defined inside an object of this class. All the data is send to the solver via pipe. To improve the general usage, two classes are defined: PreprocessorParent is the parent class and provides general functions that can be used by several different solvers. The Preprocessor class already specifies functions that are required for a specific problem. The inheritance scheme is as follows:
+The Preprocessor class is used to build the model based on the imported mesh. The material parameters, initial conditions and boundary conditions as well as basic simulation parameters should be defined inside an object of this class. All the data is send to the solver via pipe. To improve the general usage, two classes are defined: PreprocessorParent is the parent class and provides general functions that can be used by several different solvers. 
 
 ### 2.\. Public Methods
 **Preprocessor.setFrequency(frequency)** 
@@ -98,6 +98,43 @@ This function sets the Path for the solver that should be used.
 
 **Preprocessor.getNumNodes()**  
 Returns an integer with the number of nodes
+
+**Preprocessor.setMassDensity(massDensity)**
+Sets the mass density used in the simulation
+
+| Parameter |     |
+| --- | --- |
+| `massDensity` : int or float | The value for mass density of the material |
+
+&nbsp;
+
+**Preprocessor.setDynViscosity(dynViscosity**)
+Sets the dynamic viscosity used in the simulation
+
+| Parameter |     |
+| --- | --- |
+| `dynViscosity` : int or float | The value for the dynamic viscosity of the material |
+
+&nbsp;
+
+**Preprocessor.setBoundaryCondition(physicalTag,  boundaryType, values)**
+This function is used to implement boundary conditions for the incompressible flow problem. The function is making a list out of the input values and call the function `PreprocessorParent.setBoundConditionBase` with a the list as a input parameter
+
+<table class="jop-noMdConv"><thead class="jop-noMdConv"><tr class="jop-noMdConv"><th class="jop-noMdConv">Parameter</th><th class="jop-noMdConv"></th></tr></thead><tbody class="jop-noMdConv"><tr class="jop-noMdConv"><td class="jop-noMdConv"><code class="inline-code jop-noMdConv" spellcheck="false">physicalTag</code> : int or str</td><td class="jop-noMdConv">The corresponding physical tag of the boundary the conditions should be specified. If the input is from type <code spellcheck="false" class="jop-noMdConv">int</code> it must be included in&nbsp; <code spellcheck="false" class="jop-noMdConv">PreprocessorParent.BoundaryConditions.physicalTag</code>. If the input is from type <code spellcheck="false" class="jop-noMdConv">str</code> it must be included in <code spellcheck="false" class="jop-noMdConv">PreprocessorParent.BoundaryConditions.name</code></td></tr><tr class="jop-noMdConv"><td class="jop-noMdConv"><code spellcheck="false" class="jop-noMdConv">boundaryType</code> : List of str</td><td class="jop-noMdConv"><p>The input must be a list with two elements, each of which defines a boundary condition for a direction. The following boundary conditions are possible:</p><ul class="jop-noMdConv"><li class="jop-noMdConv"><code spellcheck="false" class="jop-noMdConv">'velocity'</code> : the velocity values will be given on the boundary for the defined direction</li><li class="jop-noMdConv"><code spellcheck="false" class="jop-noMdConv">'outflow'</code> : homogeneous Neumann boundary conditions used to map the outflow of the domain . If this boundary condition is applied, no parameter for values has to be specified.&nbsp;</li><li class="jop-noMdConv"><code spellcheck="false">'slip'</code> : Slip boundary condition: The velocity component in the normal direction of the boundary is 0. The velocity component in tangential direction is not constraints. If this boundary condition is applied, no parameter for <code spellcheck="false">values</code> has to be specified.</li></ul></td></tr><tr class="jop-noMdConv"><td class="jop-noMdConv"><code spellcheck="false" class="jop-noMdConv">values</code>: List of float or array</td><td class="jop-noMdConv"><p>Only needed in case velocity boundary conditions are applied. The input must be a list with two elements, containing the velocity values in x- and y-direction. If a single value is specified as an element of the list, it is assumed that the boundary condition is constant over time. If an array is specified, it is assumed that the array corresponds to the boundary values for each time-step. Therefore the length of the array must be equal to <code spellcheck="false" class="jop-noMdConv">PreprocessorParent.numOfTimeSteps</code></p></td></tr></tbody></table>
+
+&nbsp;
+
+**Preprocessor.setInitialCondition(v0)**  
+Sets the initial values for the velocity field of the simulation. Calls the function `PreprocessorParent.setInitialConditionSkalar`.
+
+| Parameter |     |
+| --- | --- |
+| `v0` : List of float or array | The values for the initial velocity field. In case it is constant in can be set by a single value for the field in x- and  a single value for the field in y- direction. In case it is different for each node it can be set via an array with the length equal to the number of nodes. An element from the array with the index i sets the velocity for the node with the index i |
+
+&nbsp;
+
+**Preprocessor.runSolver()**
+Checks if all needed requirements are fulfilled, send the simulation data via pipe and runs the solver. Gives an live output of the simulation progress.
 
 **Preprocessor.getNumTimeSteps()** 
 Returns an integer with the number of time-steps
