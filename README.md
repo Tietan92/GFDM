@@ -13,7 +13,7 @@ The general finite difference method is a meshfree approach to solve partial dif
 - **gfdm-Toolkit Concept**: [Link](https://github.com/Tietan92/GFDM/blob/main/documentation/solver_concept.md)
 - **Dynamics of incompressible fluids**
     - Mathematical Foundation: [Link](https://raw.githack.com/Tietan92/GFDM/main/documentation/incrompressible_flow/Mathematical%20Foundation.html)
-    - Software Documentation: [Link](https://github.com/Tietan92/GFDM/edit/main/documentation/incrompressible_flow/software_docu.md)
+    - Software Documentation: [Link](https://github.com/Tietan92/GFDM/blob/main/documentation/incrompressible_flow/software_docu.md)
 - **Linear Heat Conduction**
     - Mathematical Foundation: [Link](https://rawcdn.githack.com/Tietan92/GFDM/3c39fe69ffd24cbd256ec1d5a6d3c92fc7151adf/documentation/gfdm/1.%20Mathematical%20Foundation.html)
     - Software Documentation: [Link](https://rawcdn.githack.com/Tietan92/GFDM/3c39fe69ffd24cbd256ec1d5a6d3c92fc7151adf/documentation/gfdm/3.Python%20Software%20Architecture.html) 
