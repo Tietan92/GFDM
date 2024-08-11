@@ -26,7 +26,7 @@ The general finite difference method is a meshfree approach to solve partial dif
 
 **Turbulent flow along airfoil**
 
-https://github.com/user-attachments/assets/d1d32fbf-560b-496b-8419-78bf393529d3
+https://github.com/user-attachments/assets/9cf57511-0f52-4552-a163-a2a85eb8a975
 
 - Go to the code page:
 
