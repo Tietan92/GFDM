@@ -31,20 +31,20 @@ double frequency; // frequency must be defined globaly, because it is used by th
 
 // variables for output file
 std::ofstream outputFile;
-Eigen::Matrix<std::string, Eigen::Dynamic, 1> solverOutputString;
+std::size_t sizeDouble = sizeof(double);
+
 
 int main(int argc, char *argv[])
 {
     std::string name             = argv[1];               // The first console argument tells the project name
     std::string workingDirectory = argv[2];               // The second console argument tells the working directory
-    std::string inputName        = name + "_input.txt";   // naming convention for the input file
-    std::string outputName       = name + "_output.txt";  // naming convention for the output file
+    std::string outputName       = name + "_output.dat";  // naming convention for the output file
 
-    Eigen::BiCGSTAB<Eigen::SparseMatrix<double, Eigen::RowMajor>> solver; // initialising the slver
+    Eigen::BiCGSTAB<Eigen::SparseMatrix<double, Eigen::RowMajor>> solver; // initialising the solver
 
     // Scope for Coefficient Allocation
     {
-        structModelInput modelInput = importParameterSet(workingDirectory + "/" + inputName); // load Input file
+        structModelInput modelInput = readParameter(); // read input
 
         // read simulation parameters
         frequency = modelInput.simulationParameters.frequency;                // The simulation frequency determines the size of a time-step during the simulation
@@ -58,7 +58,6 @@ int main(int argc, char *argv[])
         K = modelInput.simulationParameters.numTimesteps;
         numBoundNodes = mesh.boundaryElements.numElements;
         solverOutput.resize(N);
-        solverOutputString.resize(N);
         A.resize(N,N);
         boundValMat.resize(modelInput.simulationParameters.numBoundaries, modelInput.simulationParameters.numTimesteps);
 
@@ -91,11 +90,12 @@ int main(int argc, char *argv[])
     solver.compute(A);
 
     Eigen::Matrix<double, Eigen::Dynamic, 1> B = Eigen::Matrix<double, Eigen::Dynamic, 1>::Zero(N,1);
+    Eigen::Array<double, Eigen::Dynamic, 1> solverOutputMin(K);
+    Eigen::Array<double, Eigen::Dynamic, 1> solverOutputMax(K);
 
     // Setting Up Output File
     generateOutputFile(workingDirectory + "/" + outputName);
 
-    int outputFilePos;   // the actual position in the output file
     int percentage = 10; // Percentage of the simulation progress
 
     for (int k=0; k<K; k++)
@@ -106,9 +106,11 @@ int main(int argc, char *argv[])
             B(Eigen::seq(0,numBoundNodes-1)) += (B2 * (boundAllocMat*boundValMat(Eigen::all,k)).array()).matrix();
             solverOutput = solver.solveWithGuess(B,solverOutput);
         }
-        writeToOutputFile(k,outputFilePos,percentage);
+        solverOutputMin(k) = solverOutput.array().minCoeff();
+        solverOutputMax(k) = solverOutput.array().maxCoeff();
+        writeToOutputFile(k, percentage);
     }
-    closeOutputFile();
+    closeOutputFile(solverOutputMin.minCoeff(),solverOutputMax.maxCoeff());
 
     return 0;
 }

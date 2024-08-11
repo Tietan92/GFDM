@@ -1142,7 +1142,7 @@
 	<vector>
 	<list>
 
-1710446534 source:/home/stefan/repos/gfdm/source_code/cpp/linearHeatConduction2d_BiCGSTAB/main.cpp
+1711990603 source:/home/stefan/repos/gfdm/source_code/cpp/linearHeatConduction2d_BiCGSTAB/main.cpp
 	<string>
 	<fstream>
 	"../Eigen/Core"
@@ -1164,12 +1164,10 @@
 	"../Eigen/Core"
 	"../Eigen/Dense"
 
-1710445944 /home/stefan/repos/gfdm/source_code/cpp/gfdm2d/input_readers/input_reader_module_linearHeatConduction.h
+1712082279 /home/stefan/repos/gfdm/source_code/cpp/gfdm2d/input_readers/input_reader_module_linearHeatConduction.h
 	<string>
-	<fstream>
-	<sstream>
-	<vector>
 	"Eigen/Core"
+	<unistd.h>
 
 1710445944 /home/stefan/repos/gfdm/source_code/cpp/gfdm2d/mesh_module.h
 	<string>
@@ -1192,7 +1190,7 @@
 	"mesh_module.h"
 	"input_reader_module_linearHeatConduction.h"
 
-1710446118 /home/stefan/repos/gfdm/source_code/cpp/gfdm2d/output_writer_module.h
+1712333817 /home/stefan/repos/gfdm/source_code/cpp/gfdm2d/output_writer_module.h
 	"Eigen/Core"
 	<iomanip>
 	<omp.h>
@@ -1209,7 +1207,7 @@
 	"input_reader_module_linearHeatConduction.h"
 	"pointcloud_module.h"
 
-1710437688 source:/home/stefan/repos/gfdm/source_code/cpp/gfdm2d/output_writer_module.cpp
+1712333790 source:/home/stefan/repos/gfdm/source_code/cpp/gfdm2d/output_writer_module.cpp
 	"output_writer_module.h"
 
 1710438197 source:/home/stefan/repos/gfdm/source_code/cpp/gfdm2d/pointcloud_module.cpp
@@ -1218,7 +1216,7 @@
 1710438148 source:/home/stefan/repos/gfdm/source_code/cpp/gfdm2d/mesh_module.cpp
 	"mesh_module.h"
 
-1710438446 source:/home/stefan/repos/gfdm/source_code/cpp/gfdm2d/input_readers/input_reader_module_linearHeatConduction.cpp
+1711992645 source:/home/stefan/repos/gfdm/source_code/cpp/gfdm2d/input_readers/input_reader_module_linearHeatConduction.cpp
 	"input_reader_module_linearHeatConduction.h"
 
 1710438311 source:/home/stefan/repos/gfdm/source_code/cpp/gfdm2d/sparse_triplets/sparse_triplets_linearHeatConduction.cpp
@@ -1228,4 +1226,17 @@
 	"boundary_condition_module.h"
 
 1678653216 /home/stefan/repos/gfdm/source_code/cpp/Eigen/src/Core/arch/HIP/hcc/math_constants.h
+
+1712333790 source:/home/stefan/repos/gfdm/source_code/cpp/linearHeatConduction2d_BiCGSTAB_binaryWriter/main.cpp
+	<string>
+	<fstream>
+	"../Eigen/Core"
+	"../Eigen/Sparse"
+	<omp.h>
+	"input_reader_module_linearHeatConduction.h"
+	"mesh_module.h"
+	"pointcloud_module.h"
+	"boundary_condition_module.h"
+	"output_writer_module.h"
+	"sparse_triplets_linearHeatConduction.h"
 

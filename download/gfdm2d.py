@@ -206,15 +206,17 @@ class PreprocessorParent():
     
     # private attributes ------------------------------------------------------
     
-    __projectName     = [] # Name which will be used for the simulation project
-    __mesh            = [] # Mesh class object which stores the information for the mesh
-    __solvers         = [] # A list with the names of the available solvers
-    __numOfTimeSteps  = [] # The number of time-steps needed for the specified frequency and final time.
-    __frequency       = [] # Frequency of the simulation. Describes how many time steps are processed during one time unit
-    __timeEnd         = [] # The final time when the simulation stops
-    __numThreads      = [] # The number of threads used for multiphreading implementation
-    __solverTolerance = [] # Tolerance of the solver
-    __initialValues   = [] # List with values which satisfy the initial conditions.
+    __projectName           = []    # Name which will be used for the simulation project
+    __mesh                  = []    # Mesh class object which stores the information for the mesh
+    __solvers               = []    # A list with the names of the available solvers
+    __numOfTimeSteps        = []    # The number of time-steps needed for the specified frequency and final time.
+    __frequency             = []    # Frequency of the simulation. Describes how many time steps are processed during one time unit
+    __timeEnd               = []    # The final time when the simulation stops
+    __numThreads            = 1     # The number of threads used for multiphreading implementation
+    __solverTolerance       = 1e-09 # Tolerance of the solver
+    __initialValues         = []    # List with values which satisfy the initial conditions.
+    __numBoundCondPerNode   = [] # The number of boundary conditions which have to be implemented for each node on the boundary
+    __numInitialCondPerNode = [] # The number of initial conditions which have to be implemented for each node
             
     class __BoundaryConditions():
         
@@ -222,7 +224,6 @@ class PreprocessorParent():
         name         = [] # List of the defined names of the boundaries which are saved in PreprocessorParent.mesh
         boundaryType = [] # List which stores the boundary type as an integer for each boundary. 0 = "Dirichlet", 1 = "Neumann"
         values       = [] # List which stores the boundary condition data for each defined boundary
-        possibleConditions = ['Dirichlet','Neumann'] # List with the possible boundary conditions.
         
     # private Methods -----------------------------------------------------------------    
     
@@ -284,6 +285,7 @@ class PreprocessorParent():
             elif listValuesDim[i] == 2:
                 
                 pass
+
                     
         if type(physicalTag) == str:
                         
@@ -301,33 +303,37 @@ class PreprocessorParent():
                         
             index = self.__BoundaryConditions.physicalTag.index(physicalTag)
                     
-        self.__BoundaryConditions.values[index] = listValuesApproved
-                
-        if boundaryType not in self.__BoundaryConditions.possibleConditions:
-            
-            raise Exception('boundary condition error: this boundary type is not defined')
-                            
-        self.__BoundaryConditions.boundaryType[index] = self.__BoundaryConditions.possibleConditions.index(boundaryType)+1
+        self.__BoundaryConditions.values[index] = listValuesApproved              
+        self.__BoundaryConditions.boundaryType[index] = boundaryType
         
                     
-    def __setInitialConditionSkalar(self,values):
-        # A function to implement initial conditions for skalar fields (e.g. Temperature)
+    def __setInitialConditionBase(self,values):
+        # Base function to implement initial conditions
         
         if self.__mesh  == []:
             
             raise Exception('initial condition error: please import a mesh first')
-        
-        if type(values) == int or type(values) == float:
-                
-            values = [values] * self.__mesh._Mesh__Nodes.numNodes
-                
-        if self.__mesh._Mesh__Nodes.numNodes != len(values):
             
-            raise Exception('initial condition error: the number of values must be equal to the number of Nodes')
-                
-        self.__initialValues = values    
+        valuesApproved = []
+            
+        for i in range(0,len(values)):
         
-    
+            if type(values[i]) == int or type(values[i]) == float:
+                    
+                valuesApproved.append([values[i]]*self.__mesh._Mesh__Nodes.numNodes)
+                    
+            else:
+                    
+                if self.__mesh._Mesh__Nodes.numNodes == len(values[i]):
+                        
+                    valuesApproved.append(values[i])
+                        
+                else:
+                        
+                    raise Exception('initial condition error: the number of values must be equal to the number of Nodes')         
+                
+            self.__initialValues = valuesApproved
+                
     # public methods ----------------------------------------------------------
         
     def setFrequency(self, frequency):
@@ -376,6 +382,25 @@ class PreprocessorParent():
                 self.__BoundaryConditions.values.append([])
                 self.__BoundaryConditions.boundaryType.append([])
                 
+    def getNumNodes(self):
+        # Returns an integer with the number of nodes
+        
+        if self.__mesh == []:
+            
+            raise Exception('Cannot read the number of nodes: please import a mesh first')
+        
+        return self.__mesh._Mesh__Nodes.numNodes
+    
+    def getNumTimeSteps(self):
+        # Returns an integer with the number of time-steps
+        
+        
+        if self.__numOfTimeSteps == []:
+            
+            raise Exception('Cannot read the number of time-steps: please define frequency and the simulation end time first')
+            
+        return self.__numOfTimeSteps
+                
                 
     def setSolver(self,solverPath):
         # This function sets the Path for the solver that should be used.
@@ -396,8 +421,12 @@ class PostprocessorParent():
     # private attributes ------------------------------------------------------
     
     __projectName = [] # The name of the existing project the Postprocessor should analyse.
-    __outputData  = [] # The output data imported as an array from the output file
-    __tValues     = [] # An array which saves the time values for each time-step performed in the simulation
+    __sizeDouble  = [] # The size of a variable from type double in bytes
+    __numVars     = [] # The number of variables saved in the output file
+    __N           = [] # The number of Nodes
+    __K           = [] # The numver of time-steps
+    __frequency   = [] # The simulation frequency from the output file 
+    __valMaxMin   = [] # The minimum and maximum values for each variable saved in the output file
     __mesh        = [] # The Mesh class object which corresponds to the output data
     
     # private methods ---------------------------------------------------------
@@ -407,43 +436,31 @@ class PostprocessorParent():
         # in the parameter and saves the data in the corresponding arrays.
         
         self.__projectName = projectName
+        self.__sizeDouble = np.array([],dtype=float).itemsize
+
+        output = open(projectName + "_output.dat", "rb")
+        self.__numVars = int(np.fromfile(output, dtype=float, count=1, offset=0)[0]);
+        self.__valMaxMin = np.zeros(self.__numVars*2)
+        self.__N = int(np.fromfile(output, dtype=float, count=1, offset=0)[0]);
+        self.__K = int(np.fromfile(output, dtype=float, count=1, offset=0)[0]);
+        self.__frequency = np.fromfile(output, dtype=float, count=1, offset=0)[0]
         
-        outputData = []
-        tValues = []
-        fileName = self.__projectName + "_output.txt"
-        outputFile = open(fileName,'r')
-        loop = True 
-             
-        while loop == True:    
-            line = outputFile.readline()
-                    
-            if line[:5] == "<t = ":
-                tValues.append(float(line[5:-2]))
-                loop2 = True
-                valuesTemp = []
-                line = outputFile.readline()
-                while loop2 == True:
-                                
-                    values = line[:-1].split(', ')
-                    for i in range(0,len(values)-1):
-                        valuesTemp.append(float(values[i]))
-                                
-                    line = outputFile.readline()
-                                     
-                    if line[:-1] == "<timestepEnd>":
-                        loop2 = False
-                        outputData.append(valuesTemp)
-                                
-            if line[:-1] == "<$SimulationOutputEnd>":
-                loop = False
-                        
-        self.__outputData = np.array(outputData).transpose()
-        self.__tValues = tValues
-        
-                        
-    def __triangulationPlotAnimatedBase(self,fig,ax,data,name, colormap):
-        # Generates an animated triangulation plot of skalar time dependent data and saves it as an .mp4 file.
+        for i in range(0,self.__numVars*2):
             
+            if i == 0:
+                
+                self.__valMaxMin[i] = np.fromfile(output, dtype=float, count=1, offset=self.__N*self.__K*self.__sizeDouble*self.__numVars)
+                
+            else:
+                
+                self.__valMaxMin[i] = np.fromfile(output, dtype=float, count=1, offset=0)
+        
+        output.close()
+        
+                        
+    def __triangulationPlotAnimatedBase(self,fig,ax, var, name, colormap, valMinInput, valMaxInput):
+        # Generates an animated triangulation plot of skalar time dependent data and saves it as an .mp4 file.
+        
         import matplotlib.tri as mtri
         import matplotlib.animation as animation
         from matplotlib import pyplot as plt
@@ -454,34 +471,60 @@ class PostprocessorParent():
         for i in range(0,self.__mesh._Mesh__InnerElements.numInnerElements):
                 
             triangles.append(self.__mesh._Mesh__InnerElements.nodeTag[i])
+            
+
                 
         triang = mtri.Triangulation(self.__mesh._Mesh__Nodes.coord[:,0], self.__mesh._Mesh__Nodes.coord[:,1], triangles)
             
-        valMax = np.max(np.max(data))
-        valMin = np.min(np.min(data))
-        
-        frequency = 1/(self.__tValues[1]-self.__tValues[0])
-            
         ax.axis('equal')
         
-        def update_plot(frame_number):
-                
-            ax.clear()
-            ax.tripcolor(triang, data[:,frame_number], vmin=valMin, vmax=valMax, cmap=colormap, shading = 'gouraud')
+        output = open(self.__projectName + "_output.dat", "rb")
+        output.read(4*self.__sizeDouble+var*self.__sizeDouble*self.__N) # Go to the position where the numerical values begin
+        
+        if valMinInput == []:
             
-        plot = ax.tripcolor(triang, data[:,0], vmin=valMin, vmax=valMax, cmap=colormap, shading = 'gouraud')
+            valMin = self.__valMaxMin[self.__numVars+var]
+        else:
+            
+            valMin = valMinInput
+            
+        if valMaxInput == []:
+                
+            valMax = self.__valMaxMin[var]
+        else:
+                
+            valMax = valMaxInput
+            
+        def update_plot(frame_number):  
+            
+            if frame_number == 0:
+                data = np.fromfile(output, dtype=float, count=self.__N, offset=0)
+            else:
+                data = np.fromfile(output, dtype=float, count=self.__N, offset=self.__sizeDouble*self.__N*(self.__numVars-1))
+                
+            plot.update({'array': data})
+            
+        def firstFrame():
+            data = np.ones(self.__N)
+            plot.update({'array': data})
+            
+            
+        data = np.ones(self.__N)*valMin
+            
+        plot = ax.tripcolor(triang, data, vmin=valMin, vmax=valMax, cmap=colormap, shading = 'gouraud', antialiaseds=True)
         fig.colorbar(plot)
         plt.close()
         
-        ani = animation.FuncAnimation(fig, update_plot, interval=1/frequency*1000,  save_count=int(frequency*self.__tValues[-1]))
+        ani = animation.FuncAnimation(fig, update_plot, interval=1/self.__frequency*1000,  save_count=self.__K, init_func=firstFrame)
             
-        writer = animation.FFMpegWriter(fps=frequency, metadata=dict(artist='Me'), bitrate=-1)
+        writer = animation.FFMpegWriter(fps=self.__frequency, metadata=dict(artist='Me'), bitrate=-1, extra_args=["-threads", "6"])
         ani.save(name + ".mp4", writer=writer)
+        output.close()
         
         display(Video(name + ".mp4"))
         
 
-    def __plotResultsBase(self,fig,ax,data,tVal):
+    def __plotResultsBase(self,fig,ax, var, tVal, colormap, valMinInput, valMaxInput):
         # Generates different sub-plots for fixed time points
             
         ax = np.array(ax)
@@ -493,18 +536,43 @@ class PostprocessorParent():
             triangles.append(self.__mesh._Mesh__InnerElements.nodeTag[i])
                 
         triang = mtri.Triangulation(self.__mesh._Mesh__Nodes.coord[:,0], self.__mesh._Mesh__Nodes.coord[:,1], triangles)
+        
+    
+        if valMinInput == []:
             
-        valMax = np.max(np.max(data))
-        valMin = np.min(np.min(data))
+            valMin = self.__valMaxMin[self.__numVars+var]
+        else:
+            
+            valMin = valMinInput
+            
+        if valMaxInput == []:
+                
+            valMax = self.__valMaxMin[var]
+        else:
+                
+            valMax = valMaxInput
+            
+
         ax = ax.flatten()
-        frequency = 1/(self.__tValues[1]-self.__tValues[0])
+        output = open(self.__projectName + "_output.dat", "rb")
+        output.read(4*self.__sizeDouble); # Go to position where the numerical values begin 
+        startPosOld = 0 
+        
             
         for i in range(0,len(tVal)):
-            k = round(tVal[i]*frequency)
+            
+            k = round(tVal[i]*self.__frequency) # Get the time-step
+            startPos = ((k * self.__numVars) + var) * self.__N # Position where the data begins
+            offset = startPos - startPosOld # Offset calculated from the last evaluated timestep
+            data = np.fromfile(output, dtype=float, count=self.__N, offset=offset*self.__sizeDouble)
+            startPosOld = startPos + self.__N # Update the old start position parameter
+            
             ax[i].axis('equal')
-            plot = ax[i].tripcolor(triang, data[:,k], vmin=valMin, vmax=valMax, cmap='rainbow', shading = 'gouraud')
+            plot = ax[i].tripcolor(triang, data, vmin=valMin, vmax=valMax, cmap=colormap, shading = 'gouraud')
             fig.colorbar(plot)
             ax[i].set_title("t=" + str(tVal[i]))
+            
+        output.close()
             
             
     # public methods ----------------------------------------------------------
@@ -514,4 +582,3 @@ class PostprocessorParent():
         # The number of nodes from the simulation output file must be equal to the number of nodes of the imported mesh.
                 
         self.__mesh = mesh
-        
