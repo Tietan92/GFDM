@@ -1,5 +1,5 @@
 # gfdm-Toolkit : A physical solver library based on the generalized finite difference method
-The general finite difference method is a meshfree approach to solve partial differential equations numericaly. Instead of a mesh only a pointcloud of the computitional domain is needed. This offers many advantages specially for non-linear field problems in continuum mechanics. The gfdm-Toolkit consists solvers for the following problems:
+The generalized finite difference method is a meshfree approach to solve partial differential equations numericaly. Instead of a mesh only a pointcloud of the computitional domain is needed. This offers many advantages specially for non-linear field problems in continuum mechanics. The gfdm-Toolkit consists solvers for the following problems:
 - **Dynamics of incompressible fluids (2D)**
 - **Linear Heat Conduction (2D)**
 
