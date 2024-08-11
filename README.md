@@ -6,7 +6,7 @@ The general finite difference method is a meshfree approach to solve partial dif
 ## Features:
 - **User-friendly pointcloud generation**: The solver is able to read finite element meshes from [Gmsh](https://gmsh.info/) and generate the point cloud out of it. 
 - **Python User Interface**: The user interface was implemented entirely in Python and therefore allows intuitive and simple handling. A simulation model can be built from just a few lines of code and does not require in-depth knowledge of numerical methods.
-- **Fast and efficient Solver implementation**:The entire computationally intensive part of the code was programmed in C++ with the [ViennaCL](https://viennacl.sourceforge.net/) and [Eigen3](https://eigen.tuxfamily.org/index.php?title=Main_Page) for linear algebra. In addition, most of the code was parallelised using [openMP](https://www.openmp.org/) and can be executed on multiple processor cores. The result is a very fast solver that can also solve high-resolution simulations with more than 100,000 particles on normal computers.
+- **Fast and efficient Solver implementation**:The entire computationally intensive part of the code was programmed in C++ with the [ViennaCL](https://viennacl.sourceforge.net/) and [Eigen3](https://eigen.tuxfamily.org/index.php?title=Main_Page) libraries for linear algebra. In addition, most of the code was parallelised using [openMP](https://www.openmp.org/) and can be executed on multiple processor cores. The result is a very fast solver that can also solve high-resolution simulations with more than 100,000 particles on normal computers.
 - **Easy post processing using the whole possibilities with Python**: The simulation results can be imported into Python and therefore allow simple further processing of the data or graphical visualisation. In addition, a post-processor in Python based on [Matplotlib](https://matplotlib.org/) was implemented, which enables quick and easy visualisation of the simulation results.
 
 ## Documentation:
@@ -18,23 +18,19 @@ The general finite difference method is a meshfree approach to solve partial dif
     - Mathematical Foundation: [Link](https://rawcdn.githack.com/Tietan92/GFDM/3c39fe69ffd24cbd256ec1d5a6d3c92fc7151adf/documentation/gfdm/1.%20Mathematical%20Foundation.html)
     - Software Documentation: [Link](https://rawcdn.githack.com/Tietan92/GFDM/3c39fe69ffd24cbd256ec1d5a6d3c92fc7151adf/documentation/gfdm/3.Python%20Software%20Architecture.html) 
 
-  
-  
-
-
 ## Examples:
 
 **Turbulent flow along airfoil**
 
 https://github.com/user-attachments/assets/9cf57511-0f52-4552-a163-a2a85eb8a975
 
-- Go to the code page:
+- Go to the code page: [Link](https://github.com/Tietan92/GFDM/blob/main/examples/flow%20around%20airfoil/flow_around_airfoil.ipynb)
 
 **Turbulent flow along square**
 
 https://github.com/user-attachments/assets/52af2088-f746-4df5-8642-62523d965e47
 
-- Go to the code page: 
+- Go to the code page: [Link](https://github.com/Tietan92/GFDM/blob/main/examples/flow%20along%20square/flow%20around%20square%20big%20area.ipynb)
 
 
 **CPU cooler heatflow simulation**
