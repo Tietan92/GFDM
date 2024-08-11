@@ -24,18 +24,31 @@ The general finite difference method is a meshfree approach to solve partial dif
 
 ## Examples:
 
-**CPU cooler heatflow simulation**: 
+**Turbulent flow along airfoil**
+
+https://github.com/user-attachments/assets/d1d32fbf-560b-496b-8419-78bf393529d3
+
+- Go to the code page:
+
+**Turbulent flow along square**
+
+https://github.com/user-attachments/assets/52af2088-f746-4df5-8642-62523d965e47
+
+- Go to the code page: 
+
+
+**CPU cooler heatflow simulation**
 
 https://github.com/Tietan92/GFDM/assets/108583448/5428ffb2-e368-4d86-b4f7-984f10ee1599
 
-- Go to the code page [Link](https://github.com/Tietan92/GFDM/blob/main/examples/cpu%20cooler/cpu_cooler.ipynb)
+- Go to the code page: [Link](https://github.com/Tietan92/GFDM/blob/main/examples/cpu%20cooler/cpu_cooler.ipynb)
 - Step by step guide: [Link](https://rawcdn.githack.com/Tietan92/GFDM/3c39fe69ffd24cbd256ec1d5a6d3c92fc7151adf/documentation/gfdm/Example_%20Heat%20conduction%20in%20a%20cpu%20cooler.html)
 
 **Thermal design of a micro heating element**
 
 https://github.com/Tietan92/GFDM/assets/108583448/d494b75b-d693-488f-a1ac-787c3a4b13a2
 
-- Go to the code page [Link](https://github.com/Tietan92/GFDM/blob/main/examples/micro%20heating%20element/micro_heating_element.ipynb)
+- Go to the code page: [Link](https://github.com/Tietan92/GFDM/blob/main/examples/micro%20heating%20element/micro_heating_element.ipynb)
 - Step by step guide: [Link](https://rawcdn.githack.com/Tietan92/GFDM/3c39fe69ffd24cbd256ec1d5a6d3c92fc7151adf/documentation/gfdm/Example_%20Heat%20conduction%20in%20a%20micro%20heater%20element.html)
 
 ## Download
