@@ -1,6 +1,7 @@
 # gfdm-Toolkit : A physical solver library based on the generalized finite difference method
 The generalized finite difference method is a meshfree approach to solve partial differential equations numericaly. Instead of a mesh only a pointcloud of the computitional domain is needed. This offers many advantages specially for non-linear field problems in continuum mechanics. The gfdm-Toolkit consists solvers for the following problems:
 - **Dynamics of incompressible fluids (2D)**
+- **Dynamics of elastic solids (2D)**
 - **Linear Heat Conduction (2D)**
 
 ## Features:
@@ -14,6 +15,9 @@ The generalized finite difference method is a meshfree approach to solve partial
 - **Dynamics of incompressible fluids**
     - Mathematical Foundation: [Link](https://raw.githack.com/Tietan92/GFDM/main/documentation/incrompressible_flow/Mathematical%20Foundation.html)
     - Software Documentation: [Link](https://github.com/Tietan92/GFDM/blob/main/documentation/incrompressible_flow/software_docu.md)
+- **Dynamics of elastic solids**
+    - Mathematical Foundation:
+    - Software Documentation:  
 - **Linear Heat Conduction**
     - Mathematical Foundation: [Link](https://rawcdn.githack.com/Tietan92/GFDM/3c39fe69ffd24cbd256ec1d5a6d3c92fc7151adf/documentation/gfdm/1.%20Mathematical%20Foundation.html)
     - Software Documentation: [Link](https://rawcdn.githack.com/Tietan92/GFDM/3c39fe69ffd24cbd256ec1d5a6d3c92fc7151adf/documentation/gfdm/3.Python%20Software%20Architecture.html) 
@@ -31,6 +35,18 @@ https://github.com/user-attachments/assets/9cf57511-0f52-4552-a163-a2a85eb8a975
 https://github.com/user-attachments/assets/52af2088-f746-4df5-8642-62523d965e47
 
 - Go to the code page: [Link](https://github.com/Tietan92/GFDM/blob/main/examples/flow%20along%20square/flow%20around%20square%20big%20area.ipynb)
+
+**Oscillation of a tuning forc**
+
+https://github.com/user-attachments/assets/16c65260-ca1d-47f0-9a07-6ddbb6594c9b
+
+- Go to the code page:
+
+**Bending of a beam**
+
+https://github.com/user-attachments/assets/f03e91e9-99e8-427d-a16d-38255385a921
+
+- Go to the code page:
 
 
 **CPU cooler heatflow simulation**
