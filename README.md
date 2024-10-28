@@ -40,13 +40,13 @@ https://github.com/user-attachments/assets/52af2088-f746-4df5-8642-62523d965e47
 
 https://github.com/user-attachments/assets/16c65260-ca1d-47f0-9a07-6ddbb6594c9b
 
-- Go to the code page:
+- Go to the code page: [Link](https://github.com/Tietan92/GFDM/blob/main/examples/tuning%20fork/tuning_forc.ipynb)
 
 **Bending of a beam**
 
 https://github.com/user-attachments/assets/f03e91e9-99e8-427d-a16d-38255385a921
 
-- Go to the code page:
+- Go to the code page: [Link](https://github.com/Tietan92/GFDM/blob/main/examples/beam/beam.ipynb)
 
 
 **CPU cooler heatflow simulation**
