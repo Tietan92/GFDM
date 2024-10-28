@@ -1,0 +1,57 @@
+<?xml version="1.0" encoding="UTF-8" standalone="yes" ?>
+<CodeBlocks_project_file>
+	<FileVersion major="1" minor="6" />
+	<Project>
+		<Option title="elasticSolids2d" />
+		<Option pch_mode="2" />
+		<Option compiler="gcc" />
+		<Build>
+			<Target title="Debug">
+				<Option output="bin/Debug/elasticSolids2d" prefix_auto="1" extension_auto="1" />
+				<Option object_output="obj/Debug/" />
+				<Option type="1" />
+				<Option compiler="gcc" />
+				<Compiler>
+					<Add option="-g" />
+				</Compiler>
+			</Target>
+			<Target title="Release">
+				<Option output="bin/Release/elasticSolids2d" prefix_auto="1" extension_auto="1" />
+				<Option object_output="obj/Release/" />
+				<Option type="1" />
+				<Option compiler="gcc" />
+				<Compiler>
+					<Add option="-O2" />
+					<Add option="-fopenmp" />
+					<Add directory="../gfdm2d/input_readers" />
+					<Add directory="../../cpp" />
+					<Add directory="../gfdm2d" />
+				</Compiler>
+				<Linker>
+					<Add option="-s" />
+					<Add library="gomp" />
+				</Linker>
+			</Target>
+		</Build>
+		<Compiler>
+			<Add option="-Wall" />
+			<Add option="-fexceptions" />
+		</Compiler>
+		<Unit filename="../gfdm2d/boundary_condition_module.cpp" />
+		<Unit filename="../gfdm2d/boundary_condition_module.h" />
+		<Unit filename="../gfdm2d/input_reader_module.cpp" />
+		<Unit filename="../gfdm2d/input_reader_module.h" />
+		<Unit filename="../gfdm2d/input_readers/input_reader_module_elasticSolids.cpp" />
+		<Unit filename="../gfdm2d/input_readers/input_reader_module_elasticSolids.h" />
+		<Unit filename="../gfdm2d/mesh_module.cpp" />
+		<Unit filename="../gfdm2d/mesh_module.h" />
+		<Unit filename="../gfdm2d/output_writer_module.cpp" />
+		<Unit filename="../gfdm2d/output_writer_module.h" />
+		<Unit filename="../gfdm2d/pointcloud_module.cpp" />
+		<Unit filename="../gfdm2d/pointcloud_module.h" />
+		<Unit filename="main.cpp" />
+		<Extensions>
+			<lib_finder disable_auto="1" />
+		</Extensions>
+	</Project>
+</CodeBlocks_project_file>
