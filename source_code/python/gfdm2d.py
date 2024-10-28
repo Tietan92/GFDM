@@ -573,6 +573,142 @@ class PostprocessorParent():
             ax[i].set_title("t=" + str(tVal[i]))
             
         output.close()
+        
+    def __plotResultsUpdatedLagrangeBase(self,fig,ax, var, tVal, colormap, valMinInput, valMaxInput):
+        # Generates different sub-plots for fixed time points
+        import matplotlib as mpl
+                
+        ax = np.array(ax)
+                
+        triangles = []
+        for i in range(0,self.__mesh._Mesh__InnerElements.numInnerElements):
+                    
+            triangles.append(self.__mesh._Mesh__InnerElements.nodeTag[i])
+                    
+        
+        if valMinInput == []:
+                
+            valMin = self.__valMaxMin[self.__numVars+var+2]
+        else:
+                
+            valMin = valMinInput
+                
+        if valMaxInput == []:
+                    
+            valMax = self.__valMaxMin[var+2]
+        else:
+                    
+            valMax = valMaxInput
+                
+
+        ax = ax.flatten()
+        output = open(self.__projectName + "_output.dat", "rb")
+        output.read(4*self.__sizeDouble); # Go to position where the numerical values begin 
+        startPosOld = 0 
+            
+                
+        for i in range(0,len(tVal)):
+                
+            k = round(tVal[i]*self.__frequency) # Get the time-step
+            startPos = (k * self.__numVars) * self.__N # Position where the data begins
+            offset = startPos - startPosOld # Offset calculated from the last evaluated timestep
+            coordX = np.fromfile(output, dtype=float, count=self.__N, offset=offset*self.__sizeDouble)
+            coordY = np.fromfile(output, dtype=float, count=self.__N, offset=0)
+            data   = np.fromfile(output, dtype=float, count=self.__N, offset=var*self.__sizeDouble * self.__N)
+            startPosOld = startPos + (3+var)*self.__N # Update the old start position parameter
+                
+            ax[i].axis('equal')
+            triang=mpl.tri.Triangulation(coordX, coordY, triangles)
+            plot = ax[i].tripcolor(triang, data, vmin=valMin, vmax=valMax, cmap=colormap, shading = 'gouraud')
+            fig.colorbar(plot)
+            ax[i].grid()
+            ax[i].set_title("t=" + str(tVal[i]))
+                            
+        output.close()
+        
+    def __triangulationPlotAnimatedUpdatedLagrangeBase(self,fig,ax, var, name, colormap, valMinInput, valMaxInput):
+        # Generates an animated triangulation plot of skalar time dependent data and saves it as an .mp4 file.
+        
+        import matplotlib as mpl
+        
+        import matplotlib.animation as animation
+        from matplotlib import pyplot as plt
+        from IPython.display import Video, display
+            
+        print("Generate Animation...")
+            
+        ax.axis('equal')
+        
+        output = open(self.__projectName + "_output.dat", "rb")
+        output.read(4*self.__sizeDouble) # Go to the position where the numerical values begin
+        
+        xlim = []
+        ylim = []
+        
+        triangles = []
+        for i in range(0,self.__mesh._Mesh__InnerElements.numInnerElements):
+                    
+            triangles.append(self.__mesh._Mesh__InnerElements.nodeTag[i])
+                    
+        
+        if valMinInput == []:
+                
+            valMin = self.__valMaxMin[self.__numVars+var+2]
+        else:
+                
+            valMin = valMinInput
+                
+        if valMaxInput == []:
+                    
+            valMax = self.__valMaxMin[var+2]
+        else:
+                    
+            valMax = valMaxInput
+        
+
+            
+        def update_plot(frame_number):
+            
+            ax.clear()
+
+            
+            if frame_number == 0:
+                coordX = np.fromfile(output, dtype=float, count=self.__N, offset=0)
+                coordY = np.fromfile(output, dtype=float, count=self.__N, offset=0)
+                data   = np.fromfile(output, dtype=float, count=self.__N, offset=var*self.__sizeDouble*self.__N)
+            else:
+                coordX = np.fromfile(output, dtype=float, count=self.__N, offset=self.__sizeDouble*self.__N*(3-var))
+                coordY = np.fromfile(output, dtype=float, count=self.__N, offset=0)
+                data   = np.fromfile(output, dtype=float, count=self.__N, offset=var*self.__sizeDouble*self.__N)
+
+                
+            triang=mpl.tri.Triangulation(coordX, coordY, triangles)
+            plot = ax.tripcolor(triang, data, vmin=valMin, vmax=valMax, cmap=colormap, shading = 'gouraud', antialiaseds=True)
+            ax.set(xlim=xlim, ylim=ylim)
+            #ax.grid()
+            plt.show()
+            
+            
+        def firstFrame():
+            pass
+        
+        coordX = self.__mesh._Mesh__Nodes.coord[:,0]
+        coordY = self.__mesh._Mesh__Nodes.coord[:,1]
+        triang=mpl.tri.Triangulation(coordX, coordY, triangles)
+        data = np.ones(self.__N)*valMin
+        plot = ax.tripcolor(triang, data, vmin=valMin, vmax=valMax, cmap=colormap, shading = 'gouraud', antialiaseds=True)
+        xlim = ax.get_xlim()
+        ylim = ax.get_ylim()
+        fig.colorbar(plot)
+        plt.close()
+        
+        ani = animation.FuncAnimation(fig, update_plot, interval=1/self.__frequency*1000,  save_count=self.__K, init_func=firstFrame)
+            
+        writer = animation.FFMpegWriter(fps=self.__frequency, metadata=dict(artist='Me'), bitrate=-1, extra_args=["-threads", "6"])
+        ani.save(name + ".mp4", writer=writer)
+        output.close()
+        
+        display(Video(name + ".mp4"))
             
             
     # public methods ----------------------------------------------------------
